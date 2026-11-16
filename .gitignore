@@ -1,0 +1,21 @@
+# Python environments and cache
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Local datasets and trained models
+data/
+models/
+
+# Operating system files
+.DS_Store
+Thumbs.db
