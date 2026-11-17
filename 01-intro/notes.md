@@ -38,3 +38,40 @@ ML solves this problem with the steps below:
     3. Train and use the model - A machine learning algorithm can then be applied to the encoded emails to build a model that can predict whether a new email is spam or not spam. The predictions are probabilities, and to make a decision it is necessary to define a threshold to classify emails as spam or not spam.
 
 ### 1.3 Supervised Machine Learning
+Supervised machine learning is about teaching an algorithm by showing it examples.
+A Model is always trained and then it can make predictions on new features. In this way, the model is taught by certain features and targets:
+    1. Feature matrix (X): All characteristics of the object we want to make  predictions for (made of observations or objects(rows) and features(columns))
+    2. Target variable (y): The vector y is the target we want to learn (a vector with target information we want to predict. For each row of X there's a value in y)
+
+The model can be represented as a function, **g**, that takes the feature matrix, **X**, as input and tries to predict values as close as possible to the targets, **y**. The process of finding this function **g** is called **training**.
+So g(X) is approximated to be equal to the output y.
+
+#### Types of SML problems.
+1. Regression: The output is a number, could be from zero to infinity e.g a car's price.
+2. Classification: The outputis a category.
+    A.) Binary: There are two categories.
+    B.) Multiclass problems: There are more than two categories.
+3. Ranking: The output is the top scores associated with correponding items. It is applied in recommender systems.
+
+### 1.4 CRISP-DM
+
+CRISP-DM stands for Cross-Industry Standard Process for Data Mining. It describes an iterative process for carrying out data mining and machine learning projects.
+
+It involves six steps:
+
+1. **Business understanding:** Identify the business problem and whether it needs ML. The project's goal should be measurable.
+2. **Data understanding:** Analyse available data sources and decide whether more data is required.
+3. **Data preparation:** Clean and transform the data into a format suitable for the model, using reproducible pipelines.
+4. **Modeling:** Train and compare different models. Results may reveal a need for new features or fixes to data issues.
+5. **Evaluation:** Assess model performance and whether it meets the business goal.
+6. **Deployment:** Put the solution into use, monitor its performance, and maintain it. Deployment can include online evaluation.
+
+Consider how easy the project will be to maintain.
+
+ML projects require many iterations.
+
+**Iteration**
+
+- Start simple.
+- Learn from the feedback.
+- Improve.
