@@ -180,3 +180,49 @@ Numpy provides functions for summarizing array data:
 - std_deviation = arr.std()  # Standard deviation
 
 In conclusion, Numpy is an essential library for anyone working with numerical data in Python. It simplifies array creation, manipulation, and mathematical operations, making it a powerful tool for scientific computing and data analysis.
+
+### 1.8. Linear Algebra Refresher.
+#### Vector operations
+Multiplication of a vector by a number (a scalar):
+Addition works element-wise: we add each element of the first vector to the corresponding element of the second vector:
+u = np.array([2, 7, 5, 6])
+v = np.array([3, 4, 8, 6])
+
+#### addition 
+u + v
+
+##### subtraction 
+u - v
+
+##### scalar multiplication 
+2 * v
+
+### Multiplication
+#### Vector-vector multiplication
+Vector-vector multiplication is also called the dot product, or sometimes the inner product.
+The dot product, on the other hand, produces a number. The way we compute it: we multiply each element of u with the corresponding element of v, and then we sum the results:
+
+#### Matrix-vector multiplication
+The way we do it: take the first row of the matrix U and multiply it with the vector v. This is a row - so this is exactly the situation from the dot product: a row vector times a column vector. Let's call the rows U[0], U[1] and so on, using the same notation as in NumPy
+
+#### Matrix-matrix multiplication
+Finally, matrix-matrix multiplication. We have a matrix U and a matrix V, and we want to compute U times V.
+
+What we do here: take the matrix V and break it down into multiple columns - V[:, 0], V[:, 1], V[:, 2]. Then for each column of V, we multiply the entire matrix U by this column. Each such multiplication is a matrix-vector multiplication - we just learned how to do that. The results become the columns of the new matrix.
+
+So matrix-matrix multiplication is represented as a bunch of matrix-vector multiplications. The resulting matrix has the number of rows coming from U and the number of columns coming from V.
+
+#### Identity matrix
+The identity matrix is a square matrix where on the diagonal we have ones, and zeros everywhere else
+I = np.eye(3)
+
+#### Inverse
+The identity matrix is useful for explaining what a matrix inverse is. Let's say we have a matrix A. The inverse of A, usually written A⁻¹, is a matrix such that when we multiply it by A, we get I.
+
+First of all, only square matrices - matrices where the number of rows equals the number of columns - have an inverse. Our V is 4-by-3, so let's take its first three rows to get a square matrix:
+V = np.array([
+    [1, 1, 2],
+    [0, 0.5, 1], 
+    [0, 2, 1],
+])
+inv = np.linalg.inv(V)
