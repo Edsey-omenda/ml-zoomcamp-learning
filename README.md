@@ -5,4 +5,4 @@ evaluate, and deploy machine learning systems.
 
 ## Progress
 
-- [ ] Module 1: Introduction to Machine Learning
+- [ ✅ Completed ] Module 1: Introduction to Machine Learning
