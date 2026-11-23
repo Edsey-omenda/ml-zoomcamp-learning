@@ -45,3 +45,32 @@ Pandas attributes and methods:
 - df.index -> retrieve indices of a dataframe
 
 ### 2.3 Exploratory data analysis.
+#### Pandas attributes and methods:
+
+- df[col].unique() -> return a list of unique values in the series
+- df[col].nunique() -> return the number of unique values in the series
+- df.isnull().sum() -> return the number of null values in the dataframe
+#### Matplotlib and seaborn methods:
+
+- %matplotlib inline -> assure that plots are displayed in jupyter notebook's cells
+- sns.histplot() -> show the histogram of a series
+#### Numpy methods:
+
+- np.log1p() -> apply log transformation to a variable, after adding one to each input value.
+Long-tail distributions usually confuse the ML models, so the recommendation is to transform the target variable distribution to a normal one whenever possible.
+
+### 2.4 Setting up the validation framework.
+In general, the dataset is splitted into three parts: training, validation, and test. For each partition, we need to obtain feature matrices (X) and vectors of targets (y). First, the size of the partitions is calculated. Next, the records are shuffled to ensure that the values in the three partitions contain non-sequential records from the dataset. Finally, the partitions are created using the shuffled indices.
+
+#### Pandas attributes and methods:
+
+- df.iloc[] -> return subsets of records of a dataframe, being selected by numerical indices
+- df.reset_index() -> restate the orginal indices
+- del df[col] -> eliminate a column variable
+#### Numpy methods:
+
+- np.arange() -> return an array of numbers
+- np.random.shuffle() -> return a shuffled array
+- np.random.seed() -> set a seed for reproducibility
+
+### 2.5 Linear regression.
