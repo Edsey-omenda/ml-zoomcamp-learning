@@ -114,17 +114,19 @@ You may have been wondering where the weights come from - how do we set the valu
 When all the records are included, the linear regression can be calculated with the dot product between feature matrix and vector of weights, obtaining the y vector of predictions.
 
 ### 2.7 Training linear regression: Normal equation.
-Obtaining predictions as close as possible to 
+
+Obtaining predictions as close as possible to
 y
- target values requires the calculation of weights from the general LR equation. The feature matrix does not have an inverse because it is not square, so it is required to obtain an approximate solution, which can be obtained using the Gram matrix (multiplication of feature matrix (X) and its transpose (X^T)). The vector of weights or coefficients w obtained with this formula is the closest possible solution to the LR system.
+target values requires the calculation of weights from the general LR equation. The feature matrix does not have an inverse because it is not square, so it is required to obtain an approximate solution, which can be obtained using the Gram matrix (multiplication of feature matrix (X) and its transpose (X^T)). The vector of weights or coefficients w obtained with this formula is the closest possible solution to the LR system.
 
- Normal Equation:
- 
- w = (X^T.X)^-1.X^T.y
- where:
- X^T.X is the Gram Matrix
+Normal Equation:
 
- ### 2.8 Baseline model for car price prediction project.
+w = (X^T.X)^-1.X^T.y
+where:
+X^T.X is the Gram Matrix
+
+### 2.8 Baseline model for car price prediction project.
+
 - In this lesson we build a baseline model and apply the df_train dataset to derive weights for the bias (w0) and the features (w). For this, we use the train_linear_regression(X, y) function from the previous lesson.
 - Linear regression only applies to numerical features. Therefore, only the numerical features from df_train are used for the feature matrix.
 - We notice some of the features in df_train are nan. We set them to 0 for the sake of simplicity, so the model is solvable, but it will be appropriate if a non-zeo value is used as the filler (e.g. mean value of the feature).
@@ -132,3 +134,104 @@ y
 - Then we plot both predicted y and the actual y on the same histogram for a visual comparison.
 
 ### 2.9 Root Mean Squared Error (RMSE).
+
+- In the previous lesson we found out our predictions were a bit off from the actual target values in the training dataset. We need a way to quantify how good or bad the model is. This is where RMSE can be of help.
+- Root Mean Squared Error (RMSE) is a way to evaluate regression models. It measures the error associated with the model being evaluated. This numerical figure can then be used to compare models, enabling us to choose the one that gives the best predictions.
+
+RMSE = sqrt(1/m . ∑ (g(xi) - yi)\*\*2) where i starts at 1 and goes all the way to m.
+
+- g(xi) is the prediction
+- yi is the actual value
+- m is the number of observations in the dataset (i.e. cars)
+
+### 2.10 Computing RMSE on validation data.
+
+Calculation of the RMSE on validation partition of the dataset of car price prediction. In this way, we have a metric to evaluate the model's performance.
+A lot of things are happening here, so let's write a special function for that. We'll call it prepare_X, and it takes a dataframe:
+
+def prepare_X(df):
+df_num = df[base]
+df_num = df_num.fillna(0)
+X = df_num.values
+return X
+
+The function does three things. First it selects the numerical columns, then it fills the missing values, and finally it extracts the feature matrix - the NumPy array - and returns it. We went from one line to five, but at least it is easier to understand what is going on.
+
+The point of this function is that we prepare the data in the same way regardless of whether it is the training, validation or test dataset. It works on any dataframe - that is why the argument is just df and not df_train.
+
+Now we can train the model and validate it. First the training part: we prepare the matrix from the training dataframe and train the model. Then the validation part: we prepare the validation matrix with the same function, apply the model, and compute the RMSE between the actual target values and our predictions:
+
+X_train = prepare_X(df_train)
+w0, w = train_linear_regression(X_train, y_train)
+
+X_val = prepare_X(df_val)
+y_pred = w0 + X_val.dot(w)
+rmse(y_val, y_pred)
+
+The number is pretty similar to what we had on the training data. That is what we want to see: the model behaves on unseen data about as well as on the data it learned from.
+
+Looking at the code, we can see the two parts clearly:
+
+- The training part only touches the training dataset: we prepare the matrix and learn the weights.
+- The validation part prepares the validation dataset in the same way as the training dataset, then applies the model learned in the previous step, and computes the root mean squared error for that model.
+
+### 2.11 Simple feature engineering.
+
+Feature engineering is the process of creating new features from the ones we already have. In this unit we create our first new feature - the age of a car - and see it improve the RMSE of our model quite a bit.
+
+Let's modify the prepare_X function we wrote in the previous unit. The new feature is called age, and we compute it in the same way we just did, except that instead of df_train we use the dataframe the function receives - it could be the training, validation or test set.
+
+We also need to use the new feature when building the matrix. Instead of base, we create a list called features that contains the baseline numerical features plus the new age feature:
+
+def prepare_X(df):
+df['age'] = 2017 - df.year
+features = base + ['age']
+
+    df_num = df[features]
+    df_num = df_num.fillna(0)
+    X = df_num.values
+    return X
+
+When we run this function, the first line adds a new column - and if we look at df_train again, we see that a new column appeared in it. We modified the dataframe we passed in.
+
+This is not something this function should do. As a user of this function, I don't want it to change my data - what if it does something that cannot be undone? It is much better if the function doesn't modify the dataframes it receives.
+
+The fix is simple: before doing anything, we take a copy of the dataframe and work with that copy inside the function. The original dataframe stays unchanged
+
+- after the function returns, we simply forget about the copy, because all we care about at the end is X.
+
+def prepare_X(df):
+df = df.copy()
+
+    df['age'] = 2017 - df.year
+    features = base + ['age']
+
+    df_num = df[features]
+    df_num = df_num.fillna(0)
+    X = df_num.values
+    return X
+
+Now X_train has six columns - the five base features plus age, which is the last one.
+
+#### Checking the improvement.
+
+Let's validate the model with the same code as before: prepare the matrices, train the model, apply it to the validation set and compute the RMSE:
+
+X_train = prepare_X(df_train)
+w0, w = train_linear_regression(X_train, y_train)
+
+X_val = prepare_X(df_val)
+y_pred = w0 + X_val.dot(w)
+rmse(y_val, y_pred)
+
+The model improved, and it is quite an improvement - the RMSE went down from 0.76 to 0.51:
+
+We can see that it is a big improvement by doing the same thing as previously: plotting the predicted values and the actual values on the same histogram. Note that now we compare against y_val, because we are predicting on the validation dataset, not on the training dataset as previously.
+
+sns.histplot(y_pred, label='prediction', color='red', alpha=0.5, bins=50)
+sns.histplot(y_val, label='target', color='blue', alpha=0.5, bins=50)
+plt.legend()
+
+The shapes of the two distributions are now much closer. There is still a lot of room for improvement - for example, the model completely misses this bar here - but in general it is doing much better.
+
+### 2.12 Categorical variables.
