@@ -101,7 +101,7 @@ If we look at the equation ∑ sum of wi.xij where j=1 and goeas all the way to 
 g(xi) = w0 + x.T/i.w
 We need to assure that the result is shown on the untransformed scale by using the inverse function exp().
 
-### 2.5 Linear regression: vector form.
+### 2.6 Linear regression: vector form.
 
 So this is linear regression. To summarize how we got here: we started with a for loop for one car, recognized that it is a dot product between the vector of features and the vector of weights, made it even shorter by adding the fictional feature - the virtual 1 - to the feature vector, and finally generalized it to a complete feature matrix, where linear regression is nothing else but a matrix-vector multiplication.
 
@@ -112,3 +112,16 @@ So this is linear regression. To summarize how we got here: we started with a fo
 You may have been wondering where the weights come from - how do we set the values for them? That is what we will talk about in the next lesson.
 
 When all the records are included, the linear regression can be calculated with the dot product between feature matrix and vector of weights, obtaining the y vector of predictions.
+
+### 2.7 Training linear regression: Normal equation.
+Obtaining predictions as close as possible to 
+y
+ target values requires the calculation of weights from the general LR equation. The feature matrix does not have an inverse because it is not square, so it is required to obtain an approximate solution, which can be obtained using the Gram matrix (multiplication of feature matrix (X) and its transpose (X^T)). The vector of weights or coefficients w obtained with this formula is the closest possible solution to the LR system.
+
+ Normal Equation:
+ 
+ w = (X^T.X)^-1.X^T.y
+ where:
+ X^T.X is the Gram Matrix
+
+ 
