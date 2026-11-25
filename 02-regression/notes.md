@@ -235,3 +235,21 @@ plt.legend()
 The shapes of the two distributions are now much closer. There is still a lot of room for improvement - for example, the model completely misses this bar here - but in general it is doing much better.
 
 ### 2.12 Categorical variables.
+Categorical variables are typically represented as strings, and pandas identifies them as object types. However, some variables that appear to be numerical may actually be categorical (e.g., the number of doors a car has). All these categorical variables need to be converted to a numerical form because ML models can interpret only numerical features. It is possible to incorporate certain categories from a feature, not necessarily all of them. This transformation from categorical to numerical variables is known as One-Hot encoding.
+
+### 2.13 Regularization.
+If the feature matrix has duplicate columns (or columns that can be expressed as a linear combination of other columns), it will not have an inverse matrix. But, sometimes this error could be passed if certain values are slightly different between duplicated columns.
+
+So, if we apply the normal equation with this feature matrix, the values associated with duplicated columns are very large, which decreases the model performance. To solve this issue, one alternative is adding a small number to the diagonal of the feature matrix, which corresponds to regularization.
+
+This technique works because the addition of small values to the diagonal makes it less likely to have duplicated columns. The regularization value is a hyperparameter of the model. After applying regularization the model performance improved.
+
+#### Linear combination
+I mentioned the term linear combination in the video, but didn't explain what it means. So if you're interested what it means, you can read here
+
+One column is a linear combination of others when you can express one column of a matrix as a sum of others columns
+The simplest example is when a column is an exact duplicate of another column
+Another example. Let's say we have 3 columns: a, b, c. If c = 0.2 * a + 0.5 * b, then c is a linear combination of a and b
+
+#### Ridge Regression
+The regularization technique used (adding a factor to the diagonals of Gram Matrix) in this lesson is Ridge Regression.
