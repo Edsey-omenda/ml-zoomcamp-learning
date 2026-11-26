@@ -6,4 +6,5 @@ evaluate, and deploy machine learning systems.
 ## Progress
 
 - [ ✅ Completed ] Module 1: Introduction to Machine Learning
-- [ Ongoing ] Module 2: Machine Learning for Regression
+- [ ✅ Completed] Module 2: Machine Learning for Regression
+- [ On-going ] Module 3: Machine Learning for Classification
